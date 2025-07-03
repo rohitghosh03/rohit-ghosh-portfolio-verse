@@ -125,7 +125,7 @@ const Index = () => {
       </div>
 
       {/* Add CSS for star movement animation */}
-      <style jsx>{`
+      <style>{`
         @keyframes moveStars {
           0% {
             transform: translateY(0px) translateX(0px);
