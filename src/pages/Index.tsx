@@ -90,21 +90,60 @@ const Index = () => {
       {/* Animated Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-teal-900/20 via-slate-900/50 to-slate-900"></div>
-        {[...Array(50)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute animate-pulse"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 2}s`
-            }}
-          >
-            <div className="w-1 h-1 bg-teal-400 rounded-full opacity-60"></div>
-          </div>
-        ))}
+        {[...Array(50)].map((_, i) => {
+          const randomX = Math.random() * 100;
+          const randomY = Math.random() * 100;
+          const randomDuration = 3 + Math.random() * 4; // 3-7 seconds
+          const randomDelay = Math.random() * 3;
+          const randomSize = 1 + Math.random() * 2; // 1-3px
+          
+          return (
+            <div
+              key={i}
+              className="absolute animate-pulse"
+              style={{
+                left: `${randomX}%`,
+                top: `${randomY}%`,
+                animationDelay: `${randomDelay}s`,
+                animationDuration: `${randomDuration}s`,
+                animation: `
+                  pulse ${randomDuration}s ease-in-out infinite ${randomDelay}s,
+                  moveStars ${randomDuration * 2}s linear infinite ${randomDelay}s
+                `
+              }}
+            >
+              <div 
+                className="bg-teal-400 rounded-full opacity-60"
+                style={{
+                  width: `${randomSize}px`,
+                  height: `${randomSize}px`
+                }}
+              ></div>
+            </div>
+          );
+        })}
       </div>
+
+      {/* Add CSS for star movement animation */}
+      <style jsx>{`
+        @keyframes moveStars {
+          0% {
+            transform: translateY(0px) translateX(0px);
+          }
+          25% {
+            transform: translateY(-10px) translateX(5px);
+          }
+          50% {
+            transform: translateY(-5px) translateX(-10px);
+          }
+          75% {
+            transform: translateY(10px) translateX(-5px);
+          }
+          100% {
+            transform: translateY(0px) translateX(0px);
+          }
+        }
+      `}</style>
 
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-900/80 backdrop-blur-md border-b border-teal-500/20">
