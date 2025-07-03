@@ -91,11 +91,11 @@ const Index = () => {
 
   const themeClasses = {
     background: isDarkMode 
-      ? "bg-gradient-to-b from-slate-900 via-teal-900/20 to-slate-900" 
-      : "bg-gradient-to-b from-gray-50 via-blue-50/20 to-gray-50",
+      ? "bg-gradient-to-br from-slate-900 via-teal-900 to-slate-800" 
+      : "bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100",
     text: isDarkMode ? "text-white" : "text-gray-900",
     nav: isDarkMode ? "bg-slate-900/80" : "bg-white/80",
-    card: isDarkMode ? "bg-slate-800/50" : "bg-white/30",
+    card: isDarkMode ? "bg-slate-800/30" : "bg-white/30",
     border: isDarkMode ? "border-teal-500/20" : "border-blue-500/20",
     accent: isDarkMode ? "text-teal-400" : "text-blue-600"
   };
@@ -104,7 +104,7 @@ const Index = () => {
     <div className={`min-h-screen ${themeClasses.background} ${themeClasses.text} relative overflow-x-hidden transition-colors duration-300`}>
       {/* Animated Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className={`absolute inset-0 ${isDarkMode ? 'bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-teal-900/20 via-slate-900/50 to-slate-900' : 'bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-100/20 via-gray-50/50 to-gray-50'}`}></div>
+        <div className={`absolute inset-0 ${isDarkMode ? 'bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-teal-800/30 via-slate-900/60 to-slate-900' : 'bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-100/20 via-gray-50/50 to-gray-50'}`}></div>
         {[...Array(50)].map((_, i) => {
           const randomX = Math.random() * 100;
           const randomY = Math.random() * 100;
@@ -199,7 +199,7 @@ const Index = () => {
             <img
               src="/lovable-uploads/ebc39003-92e0-4b65-b9e1-d2767a47520f.png"
               alt="Rohit Ghosh"
-              className={`w-48 h-48 rounded-full mx-auto mb-8 border-4 ${isDarkMode ? 'border-teal-400 shadow-2xl shadow-teal-400/20' : 'border-blue-500 shadow-2xl shadow-blue-500/20'}`}
+              className={`w-64 h-64 rounded-full mx-auto mb-8 border-4 ${isDarkMode ? 'border-teal-400 shadow-2xl shadow-teal-400/20' : 'border-blue-500 shadow-2xl shadow-blue-500/20'}`}
             />
           </div>
           <h1 className={`text-5xl md:text-7xl font-bold mb-4 ${isDarkMode ? 'bg-gradient-to-r from-teal-400 to-blue-500' : 'bg-gradient-to-r from-blue-600 to-purple-600'} bg-clip-text text-transparent`}>
@@ -359,12 +359,12 @@ const Index = () => {
           <h2 className={`text-4xl font-bold text-center mb-16 ${themeClasses.accent}`}>SKILLS</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {Object.entries(skills).map(([category, skillList], index) => (
-              <Card key={index} className={`${isDarkMode ? 'bg-white/10' : 'bg-white/20'} backdrop-blur-lg border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105`}>
+              <Card key={index} className={`${isDarkMode ? 'bg-gradient-to-br from-teal-900/20 via-slate-800/30 to-teal-800/20' : 'bg-gradient-to-br from-white/30 via-blue-50/40 to-white/20'} backdrop-blur-xl border ${isDarkMode ? 'border-teal-500/30' : 'border-blue-300/30'} shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-105 hover:border-opacity-50`}>
                 <CardContent className="p-8">
                   <h3 className={`text-xl font-bold mb-6 ${themeClasses.accent} text-center`}>{category}</h3>
                   <div className="space-y-3">
                     {skillList.map((skill, i) => (
-                      <div key={i} className={`${isDarkMode ? 'bg-white/5' : 'bg-white/30'} backdrop-blur-sm p-3 rounded-lg text-center border border-white/10 hover:border-white/30 transition-all duration-200`}>
+                      <div key={i} className={`${isDarkMode ? 'bg-teal-900/20 border-teal-500/20' : 'bg-white/40 border-blue-300/20'} backdrop-blur-sm p-3 rounded-lg text-center border hover:border-opacity-50 transition-all duration-200 hover:scale-105`}>
                         <span className={`${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>{skill}</span>
                       </div>
                     ))}
