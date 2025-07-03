@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -6,10 +5,11 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Github, Linkedin, ArrowDown, ArrowUp } from "lucide-react";
+import { Github, Linkedin, ArrowDown, ArrowUp, Sun, Moon } from "lucide-react";
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
+  const [isDarkMode, setIsDarkMode] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -30,6 +30,10 @@ const Index = () => {
     setActiveSection(sectionId);
     const element = document.getElementById(sectionId);
     element?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
   };
 
   const projects = [
@@ -85,17 +89,28 @@ const Index = () => {
     "Core Subjects": ["DSA", "Operating Systems", "Computer Networks", "DBMS", "OOP"]
   };
 
+  const themeClasses = {
+    background: isDarkMode 
+      ? "bg-gradient-to-b from-slate-900 via-teal-900/20 to-slate-900" 
+      : "bg-gradient-to-b from-gray-50 via-blue-50/20 to-gray-50",
+    text: isDarkMode ? "text-white" : "text-gray-900",
+    nav: isDarkMode ? "bg-slate-900/80" : "bg-white/80",
+    card: isDarkMode ? "bg-slate-800/50" : "bg-white/30",
+    border: isDarkMode ? "border-teal-500/20" : "border-blue-500/20",
+    accent: isDarkMode ? "text-teal-400" : "text-blue-600"
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-teal-900/20 to-slate-900 text-white relative overflow-x-hidden">
+    <div className={`min-h-screen ${themeClasses.background} ${themeClasses.text} relative overflow-x-hidden transition-colors duration-300`}>
       {/* Animated Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-teal-900/20 via-slate-900/50 to-slate-900"></div>
+        <div className={`absolute inset-0 ${isDarkMode ? 'bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-teal-900/20 via-slate-900/50 to-slate-900' : 'bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-100/20 via-gray-50/50 to-gray-50'}`}></div>
         {[...Array(50)].map((_, i) => {
           const randomX = Math.random() * 100;
           const randomY = Math.random() * 100;
-          const randomDuration = 3 + Math.random() * 4; // 3-7 seconds
+          const randomDuration = 3 + Math.random() * 4;
           const randomDelay = Math.random() * 3;
-          const randomSize = 1 + Math.random() * 2; // 1-3px
+          const randomSize = 1 + Math.random() * 2;
           
           return (
             <div
@@ -113,7 +128,7 @@ const Index = () => {
               }}
             >
               <div 
-                className="bg-teal-400 rounded-full opacity-60"
+                className={`${isDarkMode ? 'bg-teal-400' : 'bg-blue-400'} rounded-full opacity-60`}
                 style={{
                   width: `${randomSize}px`,
                   height: `${randomSize}px`
@@ -146,22 +161,32 @@ const Index = () => {
       `}</style>
 
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-slate-900/80 backdrop-blur-md border-b border-teal-500/20">
+      <nav className={`fixed top-0 left-0 right-0 z-50 ${themeClasses.nav} backdrop-blur-md border-b ${themeClasses.border}`}>
         <div className="container mx-auto px-6 py-4">
           <div className="flex justify-between items-center">
-            <div className="text-xl font-bold text-teal-400">ROHIT GHOSH</div>
-            <div className="hidden md:flex space-x-8">
-              {['home', 'about', 'projects', 'skills', 'contact'].map((section) => (
-                <button
-                  key={section}
-                  onClick={() => scrollToSection(section)}
-                  className={`capitalize transition-colors hover:text-teal-400 ${
-                    activeSection === section ? 'text-teal-400' : 'text-gray-300'
-                  }`}
-                >
-                  {section}
-                </button>
-              ))}
+            <div className={`text-xl font-bold ${themeClasses.accent}`}>ROHIT GHOSH</div>
+            <div className="flex items-center space-x-6">
+              <div className="hidden md:flex space-x-8">
+                {['home', 'about', 'projects', 'skills', 'contact'].map((section) => (
+                  <button
+                    key={section}
+                    onClick={() => scrollToSection(section)}
+                    className={`capitalize transition-colors ${themeClasses.accent} hover:opacity-80 ${
+                      activeSection === section ? 'opacity-100' : 'opacity-60'
+                    }`}
+                  >
+                    {section}
+                  </button>
+                ))}
+              </div>
+              <Button
+                onClick={toggleTheme}
+                variant="outline"
+                size="icon"
+                className={`${themeClasses.border} ${isDarkMode ? 'text-teal-400 hover:bg-teal-400/10' : 'text-blue-600 hover:bg-blue-600/10'}`}
+              >
+                {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+              </Button>
             </div>
           </div>
         </div>
@@ -174,32 +199,32 @@ const Index = () => {
             <img
               src="/lovable-uploads/ebc39003-92e0-4b65-b9e1-d2767a47520f.png"
               alt="Rohit Ghosh"
-              className="w-48 h-48 rounded-full mx-auto mb-8 border-4 border-teal-400 shadow-2xl shadow-teal-400/20"
+              className={`w-48 h-48 rounded-full mx-auto mb-8 border-4 ${isDarkMode ? 'border-teal-400 shadow-2xl shadow-teal-400/20' : 'border-blue-500 shadow-2xl shadow-blue-500/20'}`}
             />
           </div>
-          <h1 className="text-5xl md:text-7xl font-bold mb-4 bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent">
+          <h1 className={`text-5xl md:text-7xl font-bold mb-4 ${isDarkMode ? 'bg-gradient-to-r from-teal-400 to-blue-500' : 'bg-gradient-to-r from-blue-600 to-purple-600'} bg-clip-text text-transparent`}>
             ROHIT GHOSH
           </h1>
-          <p className="text-xl md:text-2xl text-gray-300 mb-8">
+          <p className={`text-xl md:text-2xl mb-8 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
             Machine Learning Enthusiast | Problem Solver | CSE Undergrad
           </p>
           <div className="flex flex-wrap justify-center gap-4 mb-12">
             <Button 
               onClick={() => scrollToSection('projects')}
-              className="bg-teal-600 hover:bg-teal-700 px-8 py-3 rounded-lg transition-all hover:scale-105"
+              className={`${isDarkMode ? 'bg-teal-600 hover:bg-teal-700' : 'bg-blue-600 hover:bg-blue-700'} px-8 py-3 rounded-lg transition-all hover:scale-105`}
             >
               View Projects
             </Button>
             <Button 
               onClick={() => scrollToSection('contact')}
               variant="outline" 
-              className="border-teal-400 text-teal-400 hover:bg-teal-400 hover:text-slate-900 px-8 py-3 rounded-lg transition-all hover:scale-105"
+              className={`${isDarkMode ? 'border-teal-400 text-teal-400 hover:bg-teal-400 hover:text-slate-900' : 'border-blue-500 text-blue-600 hover:bg-blue-500 hover:text-white'} px-8 py-3 rounded-lg transition-all hover:scale-105`}
             >
               Contact Me
             </Button>
           </div>
           <div className="animate-bounce">
-            <ArrowDown className="mx-auto text-teal-400" size={32} />
+            <ArrowDown className={`mx-auto ${themeClasses.accent}`} size={32} />
           </div>
         </div>
       </section>
@@ -207,12 +232,12 @@ const Index = () => {
       {/* About Section */}
       <section id="about" className="py-20 relative">
         <div className="container mx-auto px-6">
-          <h2 className="text-4xl font-bold text-center mb-16 text-teal-400">ABOUT ME</h2>
+          <h2 className={`text-4xl font-bold text-center mb-16 ${themeClasses.accent}`}>ABOUT ME</h2>
           <div className="grid md:grid-cols-2 gap-12">
-            <Card className="bg-slate-800/50 border-teal-500/20 backdrop-blur-sm">
+            <Card className={`${themeClasses.card} ${themeClasses.border} backdrop-blur-sm`}>
               <CardContent className="p-8">
-                <h3 className="text-2xl font-bold mb-4 text-teal-400">Personal Bio</h3>
-                <p className="text-gray-300 leading-relaxed">
+                <h3 className={`text-2xl font-bold mb-4 ${themeClasses.accent}`}>Personal Bio</h3>
+                <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
                   I am currently pursuing B.Tech in CSE from Institute of Engineering and Management, 
                   Salt Lake-5, Kolkata. I am in my 7th semester (graduating in 2026) with a CGPA of 8.6. 
                   My interests lie in Machine Learning, AI, problem-solving (DSA/Web Dev), and exploring 
@@ -222,10 +247,10 @@ const Index = () => {
             </Card>
             
             <div className="space-y-6">
-              <Card className="bg-slate-800/50 border-teal-500/20 backdrop-blur-sm">
+              <Card className={`${themeClasses.card} ${themeClasses.border} backdrop-blur-sm`}>
                 <CardContent className="p-6">
-                  <h3 className="text-xl font-bold mb-4 text-teal-400">Education</h3>
-                  <div className="space-y-3 text-gray-300">
+                  <h3 className={`text-xl font-bold mb-4 ${themeClasses.accent}`}>Education</h3>
+                  <div className={`space-y-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                     <div>
                       <p className="font-semibold">B.Tech CSE - IEM Kolkata</p>
                       <p className="text-sm">CGPA: 8.6 | Graduating 2026</p>
@@ -241,10 +266,10 @@ const Index = () => {
                 </CardContent>
               </Card>
 
-              <Card className="bg-slate-800/50 border-teal-500/20 backdrop-blur-sm">
+              <Card className={`${themeClasses.card} ${themeClasses.border} backdrop-blur-sm`}>
                 <CardContent className="p-6">
-                  <h3 className="text-xl font-bold mb-4 text-teal-400">Experience</h3>
-                  <div className="space-y-3 text-gray-300">
+                  <h3 className={`text-xl font-bold mb-4 ${themeClasses.accent}`}>Experience</h3>
+                  <div className={`space-y-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                     <div>
                       <p className="font-semibold">Remote AI Model Trainer</p>
                       <p className="text-sm">Outlier | Dec 2024 – Jun 2025</p>
@@ -257,17 +282,17 @@ const Index = () => {
                 </CardContent>
               </Card>
 
-              <Card className="bg-slate-800/50 border-teal-500/20 backdrop-blur-sm">
+              <Card className={`${themeClasses.card} ${themeClasses.border} backdrop-blur-sm`}>
                 <CardContent className="p-6">
-                  <h3 className="text-xl font-bold mb-4 text-teal-400">Coding Profiles</h3>
+                  <h3 className={`text-xl font-bold mb-4 ${themeClasses.accent}`}>Coding Profiles</h3>
                   <div className="space-y-2">
                     <a 
                       href="https://leetcode.com/u/rohitg10/" 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="block text-gray-300 hover:text-teal-400 transition-colors"
+                      className={`block ${isDarkMode ? 'text-gray-300 hover:text-teal-400' : 'text-gray-600 hover:text-blue-600'} transition-colors`}
                     >
-                      <Badge variant="outline" className="border-teal-400 text-teal-400">
+                      <Badge variant="outline" className={`${isDarkMode ? 'border-teal-400 text-teal-400' : 'border-blue-500 text-blue-600'}`}>
                         LeetCode: 130+ problems solved | Rating: 1353
                       </Badge>
                     </a>
@@ -275,9 +300,9 @@ const Index = () => {
                       href="https://www.hackerrank.com/profile/rohit_ghosh_0301" 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="block text-gray-300 hover:text-teal-400 transition-colors"
+                      className={`block ${isDarkMode ? 'text-gray-300 hover:text-teal-400' : 'text-gray-600 hover:text-blue-600'} transition-colors`}
                     >
-                      <Badge variant="outline" className="border-teal-400 text-teal-400">
+                      <Badge variant="outline" className={`${isDarkMode ? 'border-teal-400 text-teal-400' : 'border-blue-500 text-blue-600'}`}>
                         HackerRank Profile
                       </Badge>
                     </a>
@@ -292,32 +317,32 @@ const Index = () => {
       {/* Projects Section */}
       <section id="projects" className="py-20 relative">
         <div className="container mx-auto px-6">
-          <h2 className="text-4xl font-bold text-center mb-16 text-teal-400">PROJECTS</h2>
+          <h2 className={`text-4xl font-bold text-center mb-16 ${themeClasses.accent}`}>PROJECTS</h2>
           <div className="grid md:grid-cols-2 gap-8">
             {projects.map((project, index) => (
-              <Card key={index} className="bg-slate-800/50 border-teal-500/20 backdrop-blur-sm hover:border-teal-400/40 transition-all duration-300 hover:scale-105">
+              <Card key={index} className={`${themeClasses.card} ${themeClasses.border} backdrop-blur-sm hover:border-opacity-40 transition-all duration-300 hover:scale-105`}>
                 <CardContent className="p-8">
-                  <h3 className="text-2xl font-bold mb-4 text-teal-400">{project.title}</h3>
+                  <h3 className={`text-2xl font-bold mb-4 ${themeClasses.accent}`}>{project.title}</h3>
                   <div className="flex flex-wrap gap-2 mb-4">
                     {project.tech.map((tech, i) => (
-                      <Badge key={i} variant="secondary" className="bg-teal-900/30 text-teal-300">
+                      <Badge key={i} variant="secondary" className={`${isDarkMode ? 'bg-teal-900/30 text-teal-300' : 'bg-blue-100/30 text-blue-700'}`}>
                         {tech}
                       </Badge>
                     ))}
                   </div>
-                  <ul className="space-y-2 mb-6 text-gray-300">
+                  <ul className={`space-y-2 mb-6 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                     {project.description.map((desc, i) => (
                       <li key={i} className="flex items-start">
-                        <span className="text-teal-400 mr-2">•</span>
+                        <span className={`${themeClasses.accent} mr-2`}>•</span>
                         {desc}
                       </li>
                     ))}
                   </ul>
                   <div className="flex gap-4">
-                    <Button variant="outline" size="sm" className="border-teal-400 text-teal-400 hover:bg-teal-400 hover:text-slate-900">
+                    <Button variant="outline" size="sm" className={`${isDarkMode ? 'border-teal-400 text-teal-400 hover:bg-teal-400 hover:text-slate-900' : 'border-blue-500 text-blue-600 hover:bg-blue-500 hover:text-white'}`}>
                       GitHub
                     </Button>
-                    <Button size="sm" className="bg-teal-600 hover:bg-teal-700">
+                    <Button size="sm" className={`${isDarkMode ? 'bg-teal-600 hover:bg-teal-700' : 'bg-blue-600 hover:bg-blue-700'}`}>
                       Demo
                     </Button>
                   </div>
@@ -331,16 +356,16 @@ const Index = () => {
       {/* Skills Section */}
       <section id="skills" className="py-20 relative">
         <div className="container mx-auto px-6">
-          <h2 className="text-4xl font-bold text-center mb-16 text-teal-400">SKILLS</h2>
+          <h2 className={`text-4xl font-bold text-center mb-16 ${themeClasses.accent}`}>SKILLS</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {Object.entries(skills).map(([category, skillList], index) => (
-              <Card key={index} className="bg-slate-800/50 border-teal-500/20 backdrop-blur-sm">
+              <Card key={index} className={`${isDarkMode ? 'bg-white/10' : 'bg-white/20'} backdrop-blur-lg border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105`}>
                 <CardContent className="p-8">
-                  <h3 className="text-xl font-bold mb-6 text-teal-400 text-center">{category}</h3>
+                  <h3 className={`text-xl font-bold mb-6 ${themeClasses.accent} text-center`}>{category}</h3>
                   <div className="space-y-3">
                     {skillList.map((skill, i) => (
-                      <div key={i} className="bg-slate-700/50 p-3 rounded-lg text-center border border-teal-500/20">
-                        <span className="text-gray-300">{skill}</span>
+                      <div key={i} className={`${isDarkMode ? 'bg-white/5' : 'bg-white/30'} backdrop-blur-sm p-3 rounded-lg text-center border border-white/10 hover:border-white/30 transition-all duration-200`}>
+                        <span className={`${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>{skill}</span>
                       </div>
                     ))}
                   </div>
@@ -354,15 +379,15 @@ const Index = () => {
       {/* Contact Section */}
       <section id="contact" className="py-20 relative">
         <div className="container mx-auto px-6">
-          <h2 className="text-4xl font-bold text-center mb-16 text-teal-400">CONTACT</h2>
+          <h2 className={`text-4xl font-bold text-center mb-16 ${themeClasses.accent}`}>CONTACT</h2>
           <div className="grid md:grid-cols-2 gap-12">
-            <Card className="bg-slate-800/50 border-teal-500/20 backdrop-blur-sm">
+            <Card className={`${themeClasses.card} ${themeClasses.border} backdrop-blur-sm`}>
               <CardContent className="p-8">
-                <h3 className="text-2xl font-bold mb-6 text-teal-400">Get In Touch</h3>
+                <h3 className={`text-2xl font-bold mb-6 ${themeClasses.accent}`}>Get In Touch</h3>
                 <div className="space-y-4">
                   <div>
-                    <p className="text-gray-400">Email</p>
-                    <a href="mailto:rohit.ghosh.030604@gmail.com" className="text-teal-400 hover:text-teal-300">
+                    <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Email</p>
+                    <a href="mailto:rohit.ghosh.030604@gmail.com" className={`${themeClasses.accent} hover:opacity-80`}>
                       rohit.ghosh.030604@gmail.com
                     </a>
                   </div>
@@ -371,7 +396,7 @@ const Index = () => {
                       href="https://linkedin.com/in/rohit-ghosh-b21881253" 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="flex items-center space-x-2 text-teal-400 hover:text-teal-300 transition-colors"
+                      className={`flex items-center space-x-2 ${themeClasses.accent} hover:opacity-80 transition-colors`}
                     >
                       <Linkedin size={20} />
                       <span>LinkedIn</span>
@@ -380,7 +405,7 @@ const Index = () => {
                       href="https://github.com/rohitghosh03" 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="flex items-center space-x-2 text-teal-400 hover:text-teal-300 transition-colors"
+                      className={`flex items-center space-x-2 ${themeClasses.accent} hover:opacity-80 transition-colors`}
                     >
                       <Github size={20} />
                       <span>GitHub</span>
@@ -390,15 +415,15 @@ const Index = () => {
               </CardContent>
             </Card>
 
-            <Card className="bg-slate-800/50 border-teal-500/20 backdrop-blur-sm">
+            <Card className={`${themeClasses.card} ${themeClasses.border} backdrop-blur-sm`}>
               <CardContent className="p-8">
-                <h3 className="text-2xl font-bold mb-6 text-teal-400">Send Message</h3>
+                <h3 className={`text-2xl font-bold mb-6 ${themeClasses.accent}`}>Send Message</h3>
                 <form onSubmit={handleFormSubmit} className="space-y-4">
                   <Input
                     placeholder="Your Name"
                     value={formData.name}
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    className="bg-slate-700/50 border-teal-500/20 text-white placeholder-gray-400"
+                    className={`${isDarkMode ? 'bg-slate-700/50 border-teal-500/20 text-white placeholder-gray-400' : 'bg-white/50 border-blue-500/20 text-gray-900 placeholder-gray-500'}`}
                     required
                   />
                   <Input
@@ -406,17 +431,17 @@ const Index = () => {
                     placeholder="Your Email"
                     value={formData.email}
                     onChange={(e) => setFormData({...formData, email: e.target.value})}
-                    className="bg-slate-700/50 border-teal-500/20 text-white placeholder-gray-400"
+                    className={`${isDarkMode ? 'bg-slate-700/50 border-teal-500/20 text-white placeholder-gray-400' : 'bg-white/50 border-blue-500/20 text-gray-900 placeholder-gray-500'}`}
                     required
                   />
                   <Textarea
                     placeholder="Your Message"
                     value={formData.message}
                     onChange={(e) => setFormData({...formData, message: e.target.value})}
-                    className="bg-slate-700/50 border-teal-500/20 text-white placeholder-gray-400 min-h-32"
+                    className={`${isDarkMode ? 'bg-slate-700/50 border-teal-500/20 text-white placeholder-gray-400' : 'bg-white/50 border-blue-500/20 text-gray-900 placeholder-gray-500'} min-h-32`}
                     required
                   />
-                  <Button type="submit" className="w-full bg-teal-600 hover:bg-teal-700">
+                  <Button type="submit" className={`w-full ${isDarkMode ? 'bg-teal-600 hover:bg-teal-700' : 'bg-blue-600 hover:bg-blue-700'}`}>
                     Send Message
                   </Button>
                 </form>
@@ -427,9 +452,9 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 border-t border-teal-500/20 bg-slate-900/50">
+      <footer className={`py-8 border-t ${themeClasses.border} ${isDarkMode ? 'bg-slate-900/50' : 'bg-white/50'}`}>
         <div className="container mx-auto px-6 text-center">
-          <p className="text-gray-400">
+          <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
             © 2024 Rohit Ghosh. All rights reserved.
           </p>
         </div>
@@ -438,7 +463,7 @@ const Index = () => {
       {/* Scroll to top button */}
       <button
         onClick={() => scrollToSection('home')}
-        className="fixed bottom-8 right-8 bg-teal-600 hover:bg-teal-700 p-3 rounded-full transition-all hover:scale-110 z-50"
+        className={`fixed bottom-8 right-8 ${isDarkMode ? 'bg-teal-600 hover:bg-teal-700' : 'bg-blue-600 hover:bg-blue-700'} p-3 rounded-full transition-all hover:scale-110 z-50`}
       >
         <ArrowUp size={20} />
       </button>
