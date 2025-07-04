@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -171,33 +172,39 @@ const Index = () => {
             transform: translateY(0px) translateX(0px);
           }
         }
-        @keyframes slideInContinuous {
+        @keyframes slideInFromLeft {
           0% {
             transform: translateX(-100%);
             opacity: 0;
           }
-          50% {
+          100% {
             transform: translateX(0);
             opacity: 1;
           }
-          100% {
-            transform: translateX(20px);
-            opacity: 1;
-          }
         }
-        @keyframes scrollText {
+        @keyframes slideOutToRight {
           0% {
             transform: translateX(0);
+            opacity: 1;
           }
           100% {
-            transform: translateX(-50%);
+            transform: translateX(50px);
+            opacity: 0.8;
           }
         }
-        .slide-name-continuous {
-          animation: slideInContinuous 3s ease-in-out infinite;
+        @keyframes scrollDown {
+          0% {
+            transform: translateY(-100%);
+          }
+          100% {
+            transform: translateY(100vh);
+          }
         }
-        .scroll-text {
-          animation: scrollText 15s linear infinite;
+        .slide-ghosh {
+          animation: slideInFromLeft 1.5s ease-out, slideOutToRight 1.5s ease-out 1.5s infinite;
+        }
+        .scroll-down-text {
+          animation: scrollDown 8s linear infinite;
         }
         .glass-card {
           background: ${isDarkMode 
@@ -310,12 +317,12 @@ const Index = () => {
           </div>
           <div>
             <h1 className={`text-5xl md:text-7xl font-bold mb-4 ${isDarkMode ? 'bg-gradient-to-r from-teal-400 to-blue-500' : 'bg-gradient-to-r from-blue-600 to-purple-600'} bg-clip-text text-transparent`}>
-              ROHIT <span className="slide-name-continuous inline-block">GHOSH</span>
+              ROHIT <span className="slide-ghosh inline-block">GHOSH</span>
             </h1>
           </div>
-          <div className="overflow-hidden mb-8">
-            <p className={`text-xl md:text-2xl whitespace-nowrap scroll-text ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              Machine Learning Enthusiast | Problem Solver | CSE Undergrad | Machine Learning Enthusiast | Problem Solver | CSE Undergrad
+          <div className="h-16 overflow-hidden mb-8 relative">
+            <p className={`text-xl md:text-2xl absolute whitespace-nowrap scroll-down-text ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+              Machine Learning Enthusiast | Problem Solver | CSE Undergrad
             </p>
           </div>
           <div className="flex flex-wrap justify-center gap-4 mb-12">
