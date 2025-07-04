@@ -142,7 +142,7 @@ const Index = () => {
         })}
       </div>
 
-      {/* Add CSS for bubble animations */}
+      {/* Add CSS for bubble animations and new hover effects */}
       <style>{`
         @keyframes bubble {
           0%, 100% {
@@ -170,6 +170,62 @@ const Index = () => {
           100% {
             transform: translateY(0px) translateX(0px);
           }
+        }
+        @keyframes slideIn {
+          0% {
+            transform: translateX(-100%);
+            opacity: 0;
+          }
+          100% {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+        .name-hover:hover .slide-name {
+          animation: slideIn 0.6s ease-out;
+        }
+        .glass-card {
+          background: ${isDarkMode 
+            ? 'rgba(15, 23, 42, 0.7)' 
+            : 'rgba(255, 255, 255, 0.7)'};
+          backdrop-filter: blur(20px);
+          border: 1px solid ${isDarkMode 
+            ? 'rgba(20, 184, 166, 0.2)' 
+            : 'rgba(59, 130, 246, 0.2)'};
+          box-shadow: ${isDarkMode 
+            ? '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)' 
+            : '0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8)'};
+        }
+        .card-details {
+          max-height: 0;
+          overflow: hidden;
+          opacity: 0;
+          transition: max-height 0.4s ease-out, opacity 0.3s ease-out;
+        }
+        .card-container:hover .card-details {
+          max-height: 500px;
+          opacity: 1;
+        }
+        .heading-hover {
+          position: relative;
+          transition: all 0.3s ease;
+        }
+        .heading-hover::after {
+          content: '';
+          position: absolute;
+          width: 0;
+          height: 2px;
+          bottom: -4px;
+          left: 0;
+          background: ${isDarkMode ? '#14b8a6' : '#2563eb'};
+          transition: width 0.3s ease;
+        }
+        .heading-hover:hover::after {
+          width: 100%;
+        }
+        .heading-hover:hover {
+          transform: translateY(-2px);
+          color: ${isDarkMode ? '#5eead4' : '#3b82f6'};
         }
       `}</style>
 
@@ -212,12 +268,14 @@ const Index = () => {
             <img
               src="/lovable-uploads/ebc39003-92e0-4b65-b9e1-d2767a47520f.png"
               alt="Rohit Ghosh"
-              className={`w-64 h-64 rounded-full mx-auto mb-8 border-4 ${isDarkMode ? 'border-teal-400 shadow-2xl shadow-teal-400/20' : 'border-blue-500 shadow-2xl shadow-blue-500/20'}`}
+              className={`w-80 h-80 rounded-full mx-auto mb-8 border-4 ${isDarkMode ? 'border-teal-400 shadow-2xl shadow-teal-400/20' : 'border-blue-500 shadow-2xl shadow-blue-500/20'}`}
             />
           </div>
-          <h1 className={`text-5xl md:text-7xl font-bold mb-4 ${isDarkMode ? 'bg-gradient-to-r from-teal-400 to-blue-500' : 'bg-gradient-to-r from-blue-600 to-purple-600'} bg-clip-text text-transparent`}>
-            ROHIT GHOSH
-          </h1>
+          <div className="name-hover">
+            <h1 className={`text-5xl md:text-7xl font-bold mb-4 ${isDarkMode ? 'bg-gradient-to-r from-teal-400 to-blue-500' : 'bg-gradient-to-r from-blue-600 to-purple-600'} bg-clip-text text-transparent`}>
+              ROHIT <span className="slide-name inline-block">GHOSH</span>
+            </h1>
+          </div>
           <p className={`text-xl md:text-2xl mb-8 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
             Machine Learning Enthusiast | Problem Solver | CSE Undergrad
           </p>
@@ -247,22 +305,22 @@ const Index = () => {
         <div className="container mx-auto px-6">
           <h2 className={`text-4xl font-bold text-center mb-16 ${themeClasses.accent}`}>ABOUT ME</h2>
           <div className="grid md:grid-cols-2 gap-12">
-            <Card className={`${themeClasses.card} ${themeClasses.border} backdrop-blur-sm`}>
-              <CardContent className="p-8">
-                <h3 className={`text-2xl font-bold mb-4 ${themeClasses.accent}`}>Personal Bio</h3>
+            <div className="card-container glass-card rounded-xl p-8">
+              <h3 className={`text-2xl font-bold mb-4 ${themeClasses.accent} heading-hover cursor-pointer`}>Personal Bio</h3>
+              <div className="card-details">
                 <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
                   I am currently pursuing B.Tech in CSE from Institute of Engineering and Management, 
                   Salt Lake-5, Kolkata. I am in my 7th semester (graduating in 2026) with a CGPA of 8.6. 
                   My interests lie in Machine Learning, AI, problem-solving (DSA/Web Dev), and exploring 
                   core Computer Science fields like Operating Systems, DBMS (SQL), and Computer Networks.
                 </p>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
             
             <div className="space-y-6">
-              <Card className={`${themeClasses.card} ${themeClasses.border} backdrop-blur-sm`}>
-                <CardContent className="p-6">
-                  <h3 className={`text-xl font-bold mb-4 ${themeClasses.accent}`}>Education</h3>
+              <div className="card-container glass-card rounded-xl p-6">
+                <h3 className={`text-xl font-bold mb-4 ${themeClasses.accent} heading-hover cursor-pointer`}>Education</h3>
+                <div className="card-details">
                   <div className={`space-y-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                     <div>
                       <p className="font-semibold">B.Tech CSE - IEM Kolkata</p>
@@ -276,12 +334,12 @@ const Index = () => {
                       <p className="text-sm">95.2%</p>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
 
-              <Card className={`${themeClasses.card} ${themeClasses.border} backdrop-blur-sm`}>
-                <CardContent className="p-6">
-                  <h3 className={`text-xl font-bold mb-4 ${themeClasses.accent}`}>Experience</h3>
+              <div className="card-container glass-card rounded-xl p-6">
+                <h3 className={`text-xl font-bold mb-4 ${themeClasses.accent} heading-hover cursor-pointer`}>Experience</h3>
+                <div className="card-details">
                   <div className={`space-y-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                     <div>
                       <p className="font-semibold">Remote AI Model Trainer</p>
@@ -292,12 +350,12 @@ const Index = () => {
                       <p className="text-sm">Prodigy Infotech | March 2024</p>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
 
-              <Card className={`${themeClasses.card} ${themeClasses.border} backdrop-blur-sm`}>
-                <CardContent className="p-6">
-                  <h3 className={`text-xl font-bold mb-4 ${themeClasses.accent}`}>Coding Profiles</h3>
+              <div className="card-container glass-card rounded-xl p-6">
+                <h3 className={`text-xl font-bold mb-4 ${themeClasses.accent} heading-hover cursor-pointer`}>Coding Profiles</h3>
+                <div className="card-details">
                   <div className="space-y-2">
                     <a 
                       href="https://leetcode.com/u/rohitg10/" 
@@ -320,8 +378,8 @@ const Index = () => {
                       </Badge>
                     </a>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </div>
           </div>
         </div>
