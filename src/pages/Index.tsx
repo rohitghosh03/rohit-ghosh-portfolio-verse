@@ -102,15 +102,15 @@ const Index = () => {
 
   return (
     <div className={`min-h-screen ${themeClasses.background} ${themeClasses.text} relative overflow-x-hidden transition-colors duration-300`}>
-      {/* Animated Background */}
+      {/* Animated Background with Air Bubbles */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className={`absolute inset-0 ${isDarkMode ? 'bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-teal-800/30 via-slate-900/60 to-slate-900' : 'bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-blue-100/20 via-gray-50/50 to-gray-50'}`}></div>
-        {[...Array(50)].map((_, i) => {
+        {[...Array(30)].map((_, i) => {
           const randomX = Math.random() * 100;
           const randomY = Math.random() * 100;
-          const randomDuration = 3 + Math.random() * 4;
-          const randomDelay = Math.random() * 3;
-          const randomSize = 1 + Math.random() * 2;
+          const randomDuration = 4 + Math.random() * 6;
+          const randomDelay = Math.random() * 4;
+          const randomSize = 3 + Math.random() * 8;
           
           return (
             <div
@@ -122,16 +122,19 @@ const Index = () => {
                 animationDelay: `${randomDelay}s`,
                 animationDuration: `${randomDuration}s`,
                 animation: `
-                  pulse ${randomDuration}s ease-in-out infinite ${randomDelay}s,
-                  moveStars ${randomDuration * 2}s linear infinite ${randomDelay}s
+                  bubble ${randomDuration}s ease-in-out infinite ${randomDelay}s,
+                  float ${randomDuration * 1.5}s linear infinite ${randomDelay}s
                 `
               }}
             >
               <div 
-                className={`${isDarkMode ? 'bg-teal-400' : 'bg-blue-400'} rounded-full opacity-60`}
+                className={`${isDarkMode ? 'bg-teal-400/30 border-teal-300/20' : 'bg-blue-400/30 border-blue-300/20'} rounded-full border backdrop-blur-sm`}
                 style={{
                   width: `${randomSize}px`,
-                  height: `${randomSize}px`
+                  height: `${randomSize}px`,
+                  boxShadow: isDarkMode 
+                    ? '0 0 10px rgba(20, 184, 166, 0.3), inset 0 0 10px rgba(20, 184, 166, 0.1)' 
+                    : '0 0 10px rgba(59, 130, 246, 0.3), inset 0 0 10px rgba(59, 130, 246, 0.1)'
                 }}
               ></div>
             </div>
@@ -139,20 +142,30 @@ const Index = () => {
         })}
       </div>
 
-      {/* Add CSS for star movement animation */}
+      {/* Add CSS for bubble animations */}
       <style>{`
-        @keyframes moveStars {
+        @keyframes bubble {
+          0%, 100% {
+            transform: scale(1);
+            opacity: 0.6;
+          }
+          50% {
+            transform: scale(1.2);
+            opacity: 0.8;
+          }
+        }
+        @keyframes float {
           0% {
             transform: translateY(0px) translateX(0px);
           }
           25% {
-            transform: translateY(-10px) translateX(5px);
+            transform: translateY(-15px) translateX(8px);
           }
           50% {
-            transform: translateY(-5px) translateX(-10px);
+            transform: translateY(-8px) translateX(-12px);
           }
           75% {
-            transform: translateY(10px) translateX(-5px);
+            transform: translateY(12px) translateX(-6px);
           }
           100% {
             transform: translateY(0px) translateX(0px);
@@ -364,8 +377,8 @@ const Index = () => {
                   <h3 className={`text-xl font-bold mb-6 ${themeClasses.accent} text-center`}>{category}</h3>
                   <div className="space-y-3">
                     {skillList.map((skill, i) => (
-                      <div key={i} className={`${isDarkMode ? 'bg-teal-900/20 border-teal-500/20' : 'bg-white/40 border-blue-300/20'} backdrop-blur-sm p-3 rounded-lg text-center border hover:border-opacity-50 transition-all duration-200 hover:scale-105`}>
-                        <span className={`${isDarkMode ? 'text-gray-200' : 'text-gray-700'}`}>{skill}</span>
+                      <div key={i} className={`${isDarkMode ? 'bg-slate-800/60 border-teal-500/30 shadow-lg' : 'bg-white/60 border-blue-300/40 shadow-md'} backdrop-blur-sm p-3 rounded-lg text-center border hover:border-opacity-70 transition-all duration-200 hover:scale-105`}>
+                        <span className={`${isDarkMode ? 'text-gray-100' : 'text-gray-800'} font-medium`}>{skill}</span>
                       </div>
                     ))}
                   </div>
