@@ -42,7 +42,7 @@ const Index = () => {
       tech: ["Python", "Scikit-learn", "Streamlit"],
       description: [
         "Built content-based recommendation engine using cosine similarity",
-        "Interactive web app with real-time movie suggestions",
+        "Interactive web app with real-time movie suggestions", 
         "Deployed with Streamlit for seamless user experience"
       ],
       github: "#",
@@ -142,7 +142,7 @@ const Index = () => {
         })}
       </div>
 
-      {/* Add CSS for bubble animations and new hover effects */}
+      {/* Enhanced CSS for all animations */}
       <style>{`
         @keyframes bubble {
           0%, 100% {
@@ -171,18 +171,33 @@ const Index = () => {
             transform: translateY(0px) translateX(0px);
           }
         }
-        @keyframes slideIn {
+        @keyframes slideInContinuous {
           0% {
             transform: translateX(-100%);
             opacity: 0;
           }
-          100% {
+          50% {
             transform: translateX(0);
             opacity: 1;
           }
+          100% {
+            transform: translateX(20px);
+            opacity: 1;
+          }
         }
-        .name-hover:hover .slide-name {
-          animation: slideIn 0.6s ease-out;
+        @keyframes scrollText {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+        .slide-name-continuous {
+          animation: slideInContinuous 3s ease-in-out infinite;
+        }
+        .scroll-text {
+          animation: scrollText 15s linear infinite;
         }
         .glass-card {
           background: ${isDarkMode 
@@ -195,26 +210,37 @@ const Index = () => {
           box-shadow: ${isDarkMode 
             ? '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)' 
             : '0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8)'};
+          transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+          transform: translateY(-5px);
+          box-shadow: ${isDarkMode 
+            ? '0 16px 48px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)' 
+            : '0 16px 48px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 1)'};
         }
         .card-details {
           max-height: 0;
           overflow: hidden;
           opacity: 0;
-          transition: max-height 0.4s ease-out, opacity 0.3s ease-out;
+          transition: max-height 0.4s ease-out, opacity 0.3s ease-out, padding 0.3s ease-out;
+          padding: 0;
         }
         .card-container:hover .card-details {
           max-height: 500px;
           opacity: 1;
+          padding: 1rem 0 0 0;
         }
         .project-details {
           max-height: 0;
           overflow: hidden;
           opacity: 0;
-          transition: max-height 0.4s ease-out, opacity 0.3s ease-out;
+          transition: max-height 0.4s ease-out, opacity 0.3s ease-out, padding 0.3s ease-out;
+          padding: 0;
         }
         .project-container:hover .project-details {
           max-height: 300px;
           opacity: 1;
+          padding: 1rem 0 0 0;
         }
         .heading-hover {
           position: relative;
@@ -282,14 +308,16 @@ const Index = () => {
               className={`w-80 h-80 rounded-full mx-auto mb-8 border-4 ${isDarkMode ? 'border-teal-400 shadow-2xl shadow-teal-400/20' : 'border-blue-500 shadow-2xl shadow-blue-500/20'}`}
             />
           </div>
-          <div className="name-hover">
+          <div>
             <h1 className={`text-5xl md:text-7xl font-bold mb-4 ${isDarkMode ? 'bg-gradient-to-r from-teal-400 to-blue-500' : 'bg-gradient-to-r from-blue-600 to-purple-600'} bg-clip-text text-transparent`}>
-              ROHIT <span className="slide-name inline-block">GHOSH</span>
+              ROHIT <span className="slide-name-continuous inline-block">GHOSH</span>
             </h1>
           </div>
-          <p className={`text-xl md:text-2xl mb-8 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-            Machine Learning Enthusiast | Problem Solver | CSE Undergrad
-          </p>
+          <div className="overflow-hidden mb-8">
+            <p className={`text-xl md:text-2xl whitespace-nowrap scroll-text ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+              Machine Learning Enthusiast | Problem Solver | CSE Undergrad | Machine Learning Enthusiast | Problem Solver | CSE Undergrad
+            </p>
+          </div>
           <div className="flex flex-wrap justify-center gap-4 mb-12">
             <Button 
               onClick={() => scrollToSection('projects')}
@@ -446,7 +474,7 @@ const Index = () => {
                   <h3 className={`text-xl font-bold mb-6 ${themeClasses.accent} text-center`}>{category}</h3>
                   <div className="space-y-3">
                     {skillList.map((skill, i) => (
-                      <div key={i} className={`${isDarkMode ? 'bg-slate-800/60 border-teal-500/30 shadow-lg' : 'bg-white/60 border-blue-300/40 shadow-md'} backdrop-blur-sm p-3 rounded-lg text-center border hover:border-opacity-70 transition-all duration-200 hover:scale-105`}>
+                      <div key={i} className={`${isDarkMode ? 'bg-slate-900/70 border-teal-500/40 shadow-lg' : 'bg-white/70 border-blue-300/50 shadow-md'} backdrop-blur-sm p-3 rounded-lg text-center border hover:border-opacity-70 transition-all duration-200 hover:scale-105`}>
                         <span className={`${isDarkMode ? 'text-gray-100' : 'text-gray-800'} font-medium`}>{skill}</span>
                       </div>
                     ))}
