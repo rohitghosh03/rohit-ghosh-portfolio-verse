@@ -186,12 +186,12 @@ const Index = () => {
         }
         .glass-card {
           background: ${isDarkMode 
-            ? 'rgba(15, 23, 42, 0.7)' 
-            : 'rgba(255, 255, 255, 0.7)'};
+            ? 'rgba(15, 23, 42, 0.4)' 
+            : 'rgba(255, 255, 255, 0.4)'};
           backdrop-filter: blur(20px);
           border: 1px solid ${isDarkMode 
-            ? 'rgba(20, 184, 166, 0.2)' 
-            : 'rgba(59, 130, 246, 0.2)'};
+            ? 'rgba(20, 184, 166, 0.3)' 
+            : 'rgba(59, 130, 246, 0.3)'};
           box-shadow: ${isDarkMode 
             ? '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)' 
             : '0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8)'};
@@ -206,9 +206,20 @@ const Index = () => {
           max-height: 500px;
           opacity: 1;
         }
+        .project-details {
+          max-height: 0;
+          overflow: hidden;
+          opacity: 0;
+          transition: max-height 0.4s ease-out, opacity 0.3s ease-out;
+        }
+        .project-container:hover .project-details {
+          max-height: 300px;
+          opacity: 1;
+        }
         .heading-hover {
           position: relative;
           transition: all 0.3s ease;
+          cursor: pointer;
         }
         .heading-hover::after {
           content: '';
@@ -306,7 +317,7 @@ const Index = () => {
           <h2 className={`text-4xl font-bold text-center mb-16 ${themeClasses.accent}`}>ABOUT ME</h2>
           <div className="grid md:grid-cols-2 gap-12">
             <div className="card-container glass-card rounded-xl p-8">
-              <h3 className={`text-2xl font-bold mb-4 ${themeClasses.accent} heading-hover cursor-pointer`}>Personal Bio</h3>
+              <h3 className={`text-2xl font-bold mb-4 ${themeClasses.accent} heading-hover`}>Personal Bio</h3>
               <div className="card-details">
                 <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'} leading-relaxed`}>
                   I am currently pursuing B.Tech in CSE from Institute of Engineering and Management, 
@@ -319,7 +330,7 @@ const Index = () => {
             
             <div className="space-y-6">
               <div className="card-container glass-card rounded-xl p-6">
-                <h3 className={`text-xl font-bold mb-4 ${themeClasses.accent} heading-hover cursor-pointer`}>Education</h3>
+                <h3 className={`text-xl font-bold mb-4 ${themeClasses.accent} heading-hover`}>Education</h3>
                 <div className="card-details">
                   <div className={`space-y-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                     <div>
@@ -338,7 +349,7 @@ const Index = () => {
               </div>
 
               <div className="card-container glass-card rounded-xl p-6">
-                <h3 className={`text-xl font-bold mb-4 ${themeClasses.accent} heading-hover cursor-pointer`}>Experience</h3>
+                <h3 className={`text-xl font-bold mb-4 ${themeClasses.accent} heading-hover`}>Experience</h3>
                 <div className="card-details">
                   <div className={`space-y-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                     <div>
@@ -354,7 +365,7 @@ const Index = () => {
               </div>
 
               <div className="card-container glass-card rounded-xl p-6">
-                <h3 className={`text-xl font-bold mb-4 ${themeClasses.accent} heading-hover cursor-pointer`}>Coding Profiles</h3>
+                <h3 className={`text-xl font-bold mb-4 ${themeClasses.accent} heading-hover`}>Coding Profiles</h3>
                 <div className="card-details">
                   <div className="space-y-2">
                     <a 
@@ -391,16 +402,16 @@ const Index = () => {
           <h2 className={`text-4xl font-bold text-center mb-16 ${themeClasses.accent}`}>PROJECTS</h2>
           <div className="grid md:grid-cols-2 gap-8">
             {projects.map((project, index) => (
-              <Card key={index} className={`${themeClasses.card} ${themeClasses.border} backdrop-blur-sm hover:border-opacity-40 transition-all duration-300 hover:scale-105`}>
-                <CardContent className="p-8">
-                  <h3 className={`text-2xl font-bold mb-4 ${themeClasses.accent}`}>{project.title}</h3>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.tech.map((tech, i) => (
-                      <Badge key={i} variant="secondary" className={`${isDarkMode ? 'bg-teal-900/30 text-teal-300' : 'bg-blue-100/30 text-blue-700'}`}>
-                        {tech}
-                      </Badge>
-                    ))}
-                  </div>
+              <div key={index} className="project-container glass-card rounded-xl p-8 hover:scale-105 transition-all duration-300">
+                <h3 className={`text-2xl font-bold mb-4 ${themeClasses.accent} heading-hover`}>{project.title}</h3>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {project.tech.map((tech, i) => (
+                    <Badge key={i} variant="secondary" className={`${isDarkMode ? 'bg-teal-900/30 text-teal-300' : 'bg-blue-100/30 text-blue-700'}`}>
+                      {tech}
+                    </Badge>
+                  ))}
+                </div>
+                <div className="project-details">
                   <ul className={`space-y-2 mb-6 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                     {project.description.map((desc, i) => (
                       <li key={i} className="flex items-start">
@@ -417,8 +428,8 @@ const Index = () => {
                       Demo
                     </Button>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             ))}
           </div>
         </div>
