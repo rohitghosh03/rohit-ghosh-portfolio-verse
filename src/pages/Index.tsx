@@ -177,16 +177,16 @@ const Index = () => {
             opacity: 1;
           }
           25% {
-            transform: translateX(30px);
-            opacity: 0.7;
+            transform: translateX(15px);
+            opacity: 0.9;
           }
           50% {
             transform: translateX(0);
             opacity: 1;
           }
           75% {
-            transform: translateX(-20px);
-            opacity: 0.8;
+            transform: translateX(-10px);
+            opacity: 0.9;
           }
           100% {
             transform: translateX(0);
@@ -194,7 +194,9 @@ const Index = () => {
           }
         }
         .slide-ghosh {
-          animation: slideGhosh 3s ease-in-out infinite;
+          animation: slideGhosh 2s ease-in-out infinite;
+          display: inline-block;
+          margin-left: 0.5rem;
         }
         .glass-card {
           background: ${isDarkMode 
@@ -307,7 +309,7 @@ const Index = () => {
           </div>
           <div>
             <h1 className={`text-5xl md:text-7xl font-bold mb-4 ${isDarkMode ? 'bg-gradient-to-r from-teal-400 to-blue-500' : 'bg-gradient-to-r from-blue-600 to-purple-600'} bg-clip-text text-transparent`}>
-              ROHIT <span className="slide-ghosh inline-block">GHOSH</span>
+              ROHIT<span className="slide-ghosh">GHOSH</span>
             </h1>
           </div>
           <div className="mb-8">
