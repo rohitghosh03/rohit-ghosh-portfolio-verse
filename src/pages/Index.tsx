@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -172,39 +171,30 @@ const Index = () => {
             transform: translateY(0px) translateX(0px);
           }
         }
-        @keyframes slideInFromLeft {
-          0% {
-            transform: translateX(-100%);
-            opacity: 0;
-          }
-          100% {
-            transform: translateX(0);
-            opacity: 1;
-          }
-        }
-        @keyframes slideOutToRight {
+        @keyframes slideGhosh {
           0% {
             transform: translateX(0);
             opacity: 1;
           }
-          100% {
-            transform: translateX(50px);
+          25% {
+            transform: translateX(30px);
+            opacity: 0.7;
+          }
+          50% {
+            transform: translateX(0);
+            opacity: 1;
+          }
+          75% {
+            transform: translateX(-20px);
             opacity: 0.8;
           }
-        }
-        @keyframes scrollDown {
-          0% {
-            transform: translateY(-100%);
-          }
           100% {
-            transform: translateY(100vh);
+            transform: translateX(0);
+            opacity: 1;
           }
         }
         .slide-ghosh {
-          animation: slideInFromLeft 1.5s ease-out, slideOutToRight 1.5s ease-out 1.5s infinite;
-        }
-        .scroll-down-text {
-          animation: scrollDown 8s linear infinite;
+          animation: slideGhosh 3s ease-in-out infinite;
         }
         .glass-card {
           background: ${isDarkMode 
@@ -320,8 +310,8 @@ const Index = () => {
               ROHIT <span className="slide-ghosh inline-block">GHOSH</span>
             </h1>
           </div>
-          <div className="h-16 overflow-hidden mb-8 relative">
-            <p className={`text-xl md:text-2xl absolute whitespace-nowrap scroll-down-text ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+          <div className="mb-8">
+            <p className={`text-xl md:text-2xl ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
               Machine Learning Enthusiast | Problem Solver | CSE Undergrad
             </p>
           </div>
