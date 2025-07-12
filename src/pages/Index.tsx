@@ -171,33 +171,6 @@ const Index = () => {
             transform: translateY(0px) translateX(0px);
           }
         }
-        @keyframes slideGhosh {
-          0% {
-            transform: translateX(0);
-            opacity: 1;
-          }
-          25% {
-            transform: translateX(15px);
-            opacity: 0.9;
-          }
-          50% {
-            transform: translateX(0);
-            opacity: 1;
-          }
-          75% {
-            transform: translateX(-10px);
-            opacity: 0.9;
-          }
-          100% {
-            transform: translateX(0);
-            opacity: 1;
-          }
-        }
-        .slide-ghosh {
-          animation: slideGhosh 2s ease-in-out infinite;
-          display: inline-block;
-          margin-left: 0.5rem;
-        }
         .glass-card {
           background: ${isDarkMode 
             ? 'rgba(15, 23, 42, 0.4)' 
@@ -309,7 +282,7 @@ const Index = () => {
           </div>
           <div>
             <h1 className={`text-5xl md:text-7xl font-bold mb-4 ${isDarkMode ? 'bg-gradient-to-r from-teal-400 to-blue-500' : 'bg-gradient-to-r from-blue-600 to-purple-600'} bg-clip-text text-transparent`}>
-              ROHIT<span className="slide-ghosh">GHOSH</span>
+              ROHIT GHOSH
             </h1>
           </div>
           <div className="mb-8">
